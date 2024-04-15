@@ -3,6 +3,7 @@ package tech.powerjob.worker;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import tech.powerjob.common.PowerJobDKey;
 import tech.powerjob.common.model.WorkerAppInfo;
 import tech.powerjob.common.utils.CommonUtils;
@@ -78,8 +79,16 @@ public class PowerJobWorker {
 
             // 在发第一个请求之前，完成真正 IP 的解析
             int localBindPort = config.getPort();
-            String localBindIp = WorkerNetUtils.parseLocalBindIp(localBindPort, config.getServerAddress());
-
+            // 读取配置文件中的ip地址
+            String localBindIp;
+            String bindIp = config.getBindIp();
+            if (StringUtils.isNotBlank(bindIp)) {
+                // 配置文件已配置ip则使用绑定的ip
+                localBindIp = bindIp;
+            } else {
+                // 配置文件未配置ip则使用系统本机的ip
+                localBindIp = WorkerNetUtils.parseLocalBindIp(localBindPort, config.getServerAddress());
+            }
             // 校验 appName
             WorkerAppInfo appInfo = serverDiscoveryService.assertApp();
             workerRuntime.setAppInfo(appInfo);

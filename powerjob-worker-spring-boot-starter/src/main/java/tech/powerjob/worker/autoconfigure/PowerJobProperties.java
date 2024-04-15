@@ -117,6 +117,10 @@ public class PowerJobProperties {
         @Deprecated
         private int akkaPort = RemoteConstant.DEFAULT_WORKER_PORT;
         /**
+         * bindIp
+         */
+        private String bindIp;
+        /**
          * port
          */
         private Integer port;

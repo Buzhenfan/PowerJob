@@ -28,6 +28,11 @@ public class PowerJobWorkerConfig {
      */
     private String appName;
     /**
+     * Worker ip
+     * bind local ip
+     */
+    private String bindIp;
+    /**
      * Worker port
      * Random port is enabled when port is set with non-positive number.
      */
